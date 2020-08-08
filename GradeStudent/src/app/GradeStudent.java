@@ -75,8 +75,8 @@ public class GradeStudent {
     }
 
     public void begin() throws Exception {
-        Midterm();
-        Final();
+        midTerm();
+        finalTerm();
         homework();
 
         int sumWeight = weightMidterm + weightFinal + weightHome;
@@ -87,7 +87,7 @@ public class GradeStudent {
         report();
     }
 
-    public void Midterm() {
+    public void midTerm() {
         System.out.println("Midterm:");
         weightMidterm = inputWeight();
         scoreEarnedMidterm = inputScoreEarned();
@@ -101,7 +101,7 @@ public class GradeStudent {
         System.out.println();
     }
 
-    public void Final() {
+    public void finalTerm() {
         System.out.println("Final:");
         weightFinal = inputWeight();
         scoreEarnedFinal = inputScoreEarned();

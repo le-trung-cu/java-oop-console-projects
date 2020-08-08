@@ -3,8 +3,11 @@ package app;
 import java.util.Scanner;
 
 public class LuckyNumber {
+    // doc du lieu nhap vao
     static Scanner scan;
+    // tiep tuc hoac khong
     static String userContinue;
+
     static final int MAXIMUM = 100;
     static int totalGame = 0, totalGuesses = 0, bestGame = -1;
 
@@ -17,9 +20,9 @@ public class LuckyNumber {
             System.out.print("bạn có muốn tiếp tục chơi không? ");
             userContinue = scan.next().toUpperCase();
             System.out.println();
-            
-        } while (userContinue.equals("Y") || userContinue.equals("YES"));
 
+        } while (userContinue.equals("Y") || userContinue.equals("YES"));
+        report();
         scan.close();
     }
 
@@ -27,7 +30,8 @@ public class LuckyNumber {
         totalGame++;
         int userAnswer, countAnswer = 0;
         long luckyNumber = Math.round(Math.random() * MAXIMUM);
-        // System.out.println(luckyNumber);
+
+        System.out.println(luckyNumber);
         do {
             countAnswer++;
             totalGuesses++;
@@ -39,7 +43,9 @@ public class LuckyNumber {
                 System.out.println("số may mắn nhỏ hơn số dự đoán của bạn.");
             } else {
                 System.out.println("chúc mừng bạn đã đoán đúng con số may mắn sau " + countAnswer + " lần dự đoán!");
-                bestGame = bestGame == -1 ? countAnswer : bestGame > countAnswer ? countAnswer : bestGame;
+                bestGame = bestGame == -1 ? countAnswer 
+                : bestGame > countAnswer ? countAnswer 
+                : bestGame;
                 break;
             }
         } while (true);

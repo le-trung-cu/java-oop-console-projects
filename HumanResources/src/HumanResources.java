@@ -2,14 +2,17 @@ package app;
 
 import java.util.List;
 import java.util.Scanner;
-
 import app.Entities.*;
 import app.Services.HumanResourceService;
 
 public class HumanResources {
+
     private Scanner scan;
+    // service class làm việc với data
     private final HumanResourceService _resourceService;
+    // Quản lý
     private Manager _managerAuthenticated = null;
+    // Thoát chương trình
     private boolean existProgram = false;
 
     public HumanResources(Scanner scan) {
@@ -38,7 +41,7 @@ public class HumanResources {
         System.out.println("5.  Điều chuyển nhân viên từ bộ phần này sang bộ phận khác (quản lý).");
         System.out.println("6.  Thay đổi mức lương của nhân viên (quản lý).");
         System.out.println("7.  Tìm kiếm thông tin nhân viên theo tên hoặc mã nhân viên.");
-        System.out.println("8.  Hiển thị bảng lương của nhân viên toàn công ty.");
+        System.out.println("8.  Hiển thị bảng lương của nhân viên toàn công ty (thứ tự giảm dần).");
         System.out.println("9.  Hiển thị bảng lương của nhân viên theo thứ tự tăng dần.");
         System.out.println("10. Thoát");
     }
@@ -49,42 +52,50 @@ public class HumanResources {
         List<Department> dList;
         switch (itemSelected) {
             case 1:
+                // hiển thị danh sách nhân viên
                 eList = _resourceService.getEmployees();
                 showTableEmployees(eList);
                 enterToContinue();
                 break;
             case 2:
+                // hiển thị danh sách phòng ban
                 dList = _resourceService.getDepartments();
                 showTableDepartments(dList);
                 enterToContinue();
                 break;
             case 3:
-                // To do
+                // hiển thị nhân viên theo phòng ban
                 showEmployeesByDepartment();
                 enterToContinue();
                 break;
             case 4:
+                // thêm nhân nhân viên
                 createEmployee();
                 enterToContinue();
                 break;
             case 5:
+                // thay đổi phòng ban của nhân viên
                 setDepartmentEmployee();
                 enterToContinue();
                 break;
             case 6:
+                // thay đổi lương nhân viên
                 setSalaryEmployee();
                 enterToContinue();
                 break;
             case 7:
+                // tìm kiếm nhân viên
                 searchEmployee();
                 enterToContinue();
                 break;
             case 8:
-                eList = _resourceService.getEmployees();
+                // hiển thị lương giảm dần
+                eList = _resourceService.getEmployees("desc");
                 showTableEmployees(eList);
                 enterToContinue();
                 break;
             case 9:
+                // hiển thị lương tăng dần
                 eList = _resourceService.getEmployees("asc");
                 showTableEmployees(eList);
                 enterToContinue();
@@ -96,6 +107,7 @@ public class HumanResources {
         }
     }
 
+    // tìm kiếm nhân viên
     private void searchEmployee() {
         System.out.println("Tìm kiếm thông tin nhân viên theo tên hoặc mã nhân viên.");
         System.out.print("Nhập thông tin tìm kiếm: ");
@@ -121,7 +133,7 @@ public class HumanResources {
 
     // Hiển thị các nhân viên theo từng bộ phận
     public void showEmployeesByDepartment() {
-        System.out.println("Bạn muốn xem danh sách nhân viên của bộ phận nào (nhập Mã bộ phận): ");
+        System.out.print("Bạn muốn xem danh sách nhân viên của bộ phận nào (nhập Mã bộ phận): ");
         String departmentId = scan.nextLine();
         Department department = _resourceService.getDepartmentById(departmentId);
         if (department == null) {
@@ -143,10 +155,15 @@ public class HumanResources {
         showTableEmployees(employees);
     }
 
+    // thêm nhân viên
     public void createEmployee() {
-        Employee employee = new Employee();
-        employee.update(scan);
-        _resourceService.addEmployee(employee);
+        Employee employee = Employee.createEmployee(scan);
+
+        if(_resourceService.addEmployee(employee)){
+            System.out.println("Thêm nhân viên thành công.");
+        }else{
+            System.out.println("Thêm nhân viên không thành công.");
+        }
     }
 
     // Hiển thị danh sách nhân viên
@@ -194,22 +211,12 @@ public class HumanResources {
                 return;
             }
         }
-        System.out.println("Điều chuyển nhân viên từ bộ này sang bộ phận khác: ");
+        System.out.println("Điều chuyển nhân viên từ bộ này sang bộ phận khác.");
         System.out.print("Mã NV cần điều chuyển: ");
         String employeeId = scan.nextLine().trim();
 
-        if (!_resourceService.ExistEmployee(employeeId)) {
-            System.out.println("Mã nhân viên không đúng.");
-            return;
-        }
-
         System.out.print("Mã bộ phận điều chuyển: ");
         String departmentId = scan.nextLine().trim();
-
-        if (!_resourceService.ExistDepartment(departmentId)) {
-            System.out.println("Mã bộ phận không đúng.");
-            return;
-        }
 
         _managerAuthenticated.setDepartmentForEmployee(employeeId, departmentId);
     }
@@ -224,18 +231,13 @@ public class HumanResources {
             }
         }
         System.out.println("Thay đổi mức lương của nhân viên:");
-
         System.out.print("Mã NV cần thay đổi lương: ");
         String employeeId = scan.nextLine().trim();
-
-        if (!_resourceService.ExistEmployee(employeeId)) {
-            System.out.println("Mã nhân viên không đúng.");
-            return;
-        }
 
         System.out.print("Nhập lương mới cho nhân viên: ");
         double salary = scan.nextDouble();
         scan.nextLine();
+
         _managerAuthenticated.setSalaryForEmployee(employeeId, salary);
 
     }

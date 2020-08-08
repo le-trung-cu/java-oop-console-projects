@@ -7,8 +7,9 @@ import java.util.List;
 
 // Database
 public class AppContext {
-    
+    // danh sách nhân viên
     public final List<Employee> Employees;
+    // danh sách phòng ban
     public final List<Department> Departments;
 
     private static AppContext _instance;
@@ -29,13 +30,13 @@ public class AppContext {
 
     public void seedData() {
         Employees.add(new Employee("DT1", "name 1", 20, 5000000, "DT", new Date()));
-        Employees.add(new Employee("DT2", "name 2", 20, 5000000, "DT", new Date()));
+        Employees.add(new Employee("DT2", "name 2", 20, 26000000, "DT", new Date()));
         Employees.add(new Employee("DT3", "name 3", 20, 5000000, "DT", new Date()));
         Employees.add(new Employee("THXD1", "name 4", 20, 5000000, "THXD", new Date()));
-        Employees.add(new Employee("THXD2", "name 5", 20, 5000000, "THXD", new Date()));
-        Employees.add(new Employee("TP1", "name 6", 20, 5000000, "TP", new Date()));
-        Employees.add(new Employee("TP1", "name 6", 20, 5000000, "TP", new Date()));
-        Employees.add(new Employee("TP2", "name 6", 20, 5000000, "TP", new Date()));
+        Employees.add(new Employee("THXD2", "name 5", 20, 20000000, "THXD", new Date()));
+        Employees.add(new Employee("TP1", "name 6", 20, 25000000, "TP", new Date()));
+        Employees.add(new Employee("TP1", "name 6", 20, 6000000, "TP", new Date()));
+        Employees.add(new Employee("TP2", "name 6", 20, 8000000, "TP", new Date()));
 
         Employees.add(new Manager("THXD3", "name 5", 20, 5000000, "THXD", new Date(), "cv1"));
         Employees.add(new Manager("TP3", "name 5", 20, 15000000, "THXD", new Date(), "cv1"));

@@ -11,6 +11,8 @@ public class Department {
 
     private String id;
     private String name;
+
+    // số  lượng nhân viên trong 1 phòng ban
     private int countEmployees;
 
     public Department(String id, String name) {
@@ -18,8 +20,7 @@ public class Department {
         this.name = name;
     }
 
-    public void update() {
-        Scanner scan = new Scanner(System.in);
+    public void update(Scanner scan) {
         System.out.print("Nhập Mã bộ phận: ");
         String id = scan.nextLine();
 
@@ -53,6 +54,7 @@ public class Department {
         this.name = name;
     }
 
+    // số  lượng nhân viên trong phòng ban
     public int getCountEmployees() {
         HumanResourceService humanResourceService = new HumanResourceService();
         countEmployees = humanResourceService.getCountEmployeesInDepartment(id);
